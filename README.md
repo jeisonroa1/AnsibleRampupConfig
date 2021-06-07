@@ -45,17 +45,23 @@ If you need to run the playbook run:
 
 ### CICD Process
 
-![alt text](./CICD.png)
+![alt text](./Documentation/CICD.png)
 
-### CI Pipeline
+### Proposed CI Pipeline
 
-![alt text](./CIPipeline.png)
+![alt text](./Documentation/CIPipeline.png)
 
-### CD Pipeline
+### Proposed CD Pipeline
 
-![alt text](./CDPipeline.png)
+![alt text](./Documentation/CDPipeline.png)
 
 ### CICD Tools comparison
 
-![alt text](./AutomationCICDComparison.png)
+![alt text](./Documentation/AutomationCICDComparison.png)
+
+### Deployment Strategies
+
+- [For more information click here](https://thenewstack.io/deployment-strategies/)
+ 
+![alt text](./Documentation/DeploymentStrategies.png)
 
