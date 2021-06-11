@@ -13,4 +13,4 @@ cd /home/vagrant/
 sudo runuser -l  vagrant -c 'ansible-galaxy collection install community.mysql'
 sudo chmod 400 /home/vagrant/.ssh/Roam.pem
 sudo echo "[bastion]
-13.57.254.99 ansible_ssh_private_key_file=/home/vagrant/.ssh/Roam.pem ansible_user=ubuntu" > /etc/ansible/hosts
+18.144.14.198 ansible_ssh_private_key_file=/home/vagrant/.ssh/Roam.pem ansible_user=ubuntu" > /etc/ansible/hosts

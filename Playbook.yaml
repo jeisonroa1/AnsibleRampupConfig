@@ -1,16 +1,16 @@
 ---
-- name: Install java
+- name: Install Java
   hosts: all
   remote_user: ubuntu
   become: yes
   
   tasks:
-  - name: Install java default
+  - name: Install Java Default JRE
     apt:
       name: default-jre
       update_cache: yes
 
-- name: Install jenkins
+- name: Install Jenkins
   hosts: all
   remote_user: ubuntu
   become: yes
@@ -19,10 +19,10 @@
   - name: wget
     ansible.builtin.shell:
       cmd: wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
-  - name: Download jenkins repository
+  - name: Download Jenkins repository
     ansible.builtin.shell:
       cmd: sudo sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
-  - name: Install jenkins
+  - name: Install Jenkins
     apt:
      name: jenkins
      update_cache: yes
@@ -33,7 +33,7 @@
   become: yes
   
   tasks:
-  - name: apt mysql
+  - name: apt get mysql
     apt:
       name: mysql-client
       update_cache: yes
@@ -72,13 +72,41 @@
       name:  python3-pip
       update_cache: yes
 
+- name: Install & Setup Ansible
+  hosts: all
+  remote_user: ubuntu
+  become: yes
+
+  tasks:
+  - name: Add Ansible repository
+    ansible.builtin.apt_repository:
+      repo: ppa:ansible/ansible
+  - name: Install Ansible
+    apt: 
+      name: ansible
+      update_cache: yes
+      
+- name: Copy SSH key
+  hosts: all
+  remote_user: ubuntu
+  become: yes
+
+  tasks:
+  - name: copy key
+    copy: 
+      src: ~/.ssh/Roam.pem
+      dest: /home/ubuntu/Roam.pem
+  - name: Give permissions
+    ansible.builtin.shell:
+      cmd: sudo chmod 404 /home/ubuntu/Roam.pem
+
 - name: Run SQL Script
   hosts: all
   remote_user: ubuntu
   become: yes
 
   tasks:
-  - name: install pymysql
+  - name: Install pymysql
     ansible.builtin.shell:
       cmd: python3 -m pip install PyMySQL
   - name: copy script to remote
@@ -93,31 +121,3 @@
       login_user: dbadmin
       login_password: dbpass1234567!
       target: ~/table_creation_and_inserts.sql
-
-- name: Install & config ansible
-  hosts: all
-  remote_user: ubuntu
-  become: yes
-
-  tasks:
-  - name: add repository
-    ansible.builtin.apt_repository:
-      repo: ppa:ansible/ansible
-  - name: install ansible
-    apt: 
-      name: ansible
-      update_cache: yes
-      
-- name: Copy ssh key
-  hosts: all
-  remote_user: ubuntu
-  become: yes
-
-  tasks:
-  - name: copy key
-    copy: 
-      src: ./Roam.pem
-      dest: /home/ubuntu/Roam.pem
-  - name: Give permissions
-    ansible.builtin.shell:
-      cmd: sudo chmod 404 /home/ubuntu/Roam.pem
