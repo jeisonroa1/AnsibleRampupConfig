@@ -55,7 +55,19 @@
     apt:
       name: python3.8
       update_cache: yes
-  - name: Install Python pip
+
+  - name: Install Python2
+    apt:
+      name: python2
+      update_cache: yes
+  - name: Download python2 script to install pip2
+    get_url:
+      url: https://bootstrap.pypa.io/pip/2.7/get-pip.py
+      dest: ~/get-pip.py
+  - name: Run script to install pip2
+    ansible.builtin.shell: 
+      cmd: sudo python2.7 ~/get-pip.py
+  - name: Install Python3 pip
     apt:
       name:  python3-pip
       update_cache: yes
@@ -81,3 +93,31 @@
       login_user: dbadmin
       login_password: dbpass1234567!
       target: ~/table_creation_and_inserts.sql
+
+- name: Install & config ansible
+  hosts: all
+  remote_user: ubuntu
+  become: yes
+
+  tasks:
+  - name: add repository
+    ansible.builtin.apt_repository:
+      repo: ppa:ansible/ansible
+  - name: install ansible
+    apt: 
+      name: ansible
+      update_cache: yes
+      
+- name: Copy ssh key
+  hosts: all
+  remote_user: ubuntu
+  become: yes
+
+  tasks:
+  - name: copy key
+    copy: 
+      src: ./Roam.pem
+      dest: /home/ubuntu/Roam.pem
+  - name: Give permissions
+    ansible.builtin.shell:
+      cmd: sudo chmod 404 /home/ubuntu/Roam.pem
